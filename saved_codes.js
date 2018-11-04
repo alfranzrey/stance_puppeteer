@@ -1,6 +1,6 @@
 const browser = puppeteer.launch({
 		executablePath: 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe',
-		headless: false
+		headless: true
 	});
 //------------------------------------
 //read csv file
@@ -43,3 +43,7 @@ let row = {
     exportToCSV.write(objToString(row) + '\n');
     console.log(objToString(row) + '\n'); 
 //
+
+
+//----------------//for c9
+const browser = await puppeteer.launch({headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox']});

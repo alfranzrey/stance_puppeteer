@@ -39,14 +39,14 @@ function objToString (obj) {
 	try{
 		//---------------
 		const browser = await puppeteer.launch({executablePath: 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe',
-			headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox']});
+			headless: true});
 		const page = await browser.newPage();
-		//page.setUserAgent('Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36');
+		page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36');
 		//-----------------
 
 		//code starts here
 		for(var i = 0; i < csvData.length; i++){
-			await page.goto("https://www.stance.com/search?q="+csvData[i]);
+			await page.goto("https://www.stance.com/search?q="+csvData[i], {waitUntil: 'load', timeout: 0}); //bypass timeout
 			await page.waitForSelector('#primary');
 			var title = "";
 			var description = "";

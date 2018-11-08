@@ -1,1 +1,1 @@
-# Testing only
+# Stance data scraper

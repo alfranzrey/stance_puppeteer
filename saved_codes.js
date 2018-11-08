@@ -47,3 +47,16 @@ let row = {
 
 //----------------//for c9
 const browser = await puppeteer.launch({headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox']});
+
+
+//block images and css using chromium
+await page.setRequestInterception(true);
+page.on('request', (req) => {
+    if(req.resourceType() == 'stylesheet' || req.resourceType() == 'font' || req.resourceType() == 'image'){
+        req.abort();
+    }
+    else {
+        req.continue();
+    }
+});
+//

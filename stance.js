@@ -39,16 +39,12 @@ function objToString (obj) {
 (async function main() {
 	try{
 		//---------------
-		const browser = await puppeteer.launch({executablePath: 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe',
+		const browser = await puppeteer.launch({
 			headless: false});
 		const page = await browser.newPage();
 		page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36');
 		//await page.setViewport({ width: 1920, height: 1080 });
-		//-----------------
-
-		//code starts here
-		for(var i = 0; i < csvData.length; i++){
-			//block images and css
+		//block images and css
 			await page.setRequestInterception(true);
 		    page.on('request', (req) => {
 		        if(req.resourceType() == 'stylesheet' || req.resourceType() == 'font' || req.resourceType() == 'image'){
@@ -59,6 +55,10 @@ function objToString (obj) {
 		        }
 		    });
 		    //
+		//-----------------
+
+		//code starts here
+		for(var i = 0; i < csvData.length; i++){
 			await page.goto("https://www.stance.com/search?q="+csvData[i], {waitUntil: 'load', timeout: 0}); //bypass timeout
 			await page.waitForSelector('#primary');
 			var title = "";

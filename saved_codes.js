@@ -60,3 +60,36 @@ page.on('request', (req) => {
     }
 });
 //
+
+//gather all the links
+for(var i = 0; i < csvData.length; i++){
+    links[i] = "https://www.amazon.com/gp/offer-listing/"+csvData[i];
+}//----
+
+//async all links
+await Promise.all(links.map(async(link) =>{
+    var title = "Missing Detail Page";
+    try{
+        const curPage = await browser.newPage();
+        await curPage.goto(link);
+        curPageCount++;
+        console.log("opening tab.. "+curPageCount); 
+        await curPage.waitForSelector('body');
+        if (await curPage.$('#olpProductDetails > h1') !== null){
+            title = await curPage.evaluate(() => document.querySelector('#olpProductDetails > h1').innerText); 
+        }
+        console.log(link+ " = " +title);
+        curPage.close();
+        curPageCount--;
+        console.log(curPageCount); 
+    }
+    catch(err){
+        //console.log(link + "> Promise ER: "+err);
+        //title = "Missing Detail Page!";
+        console.log(link+ " = " +title);
+        curPage.close();
+        curPageCount--;
+        console.log(curPageCount); 
+    }
+    
+}));//-----------
